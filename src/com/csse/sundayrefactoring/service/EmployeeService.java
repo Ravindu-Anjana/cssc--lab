@@ -39,8 +39,8 @@ public class EmployeeService extends PropertyConfigs {
 			Class.forName(JDBC_NAME);
 			connection = DriverManager.getConnection(properties.getProperty(URL), properties.getProperty(USERNAME),
 					properties.getProperty(PASSWORD));
-		} catch (SQLException | ClassNotFoundException ex) {
-			logger.error("EmployeeService: Exception {}", ex);
+		} catch (SQLException | ClassNotFoundException exception) {
+			logger.error("EmployeeService: Exception {}", exception);
 //			throw ex;
 		} 
 	}
@@ -50,7 +50,7 @@ public class EmployeeService extends PropertyConfigs {
 		try {
 			int size = XMLTransformService.getXmlXpath().size();
 			for (int i = 0; i < size; i++) {
-				Map<String, String> l = XMLTransformService.getXmlXpath().get(i);
+				Map<String, String> l = XMLTransformService.getXmlXpath().get(i);//rename variable
 				Employee employee = new Employee();
 				employee.setEmployeeId(l.get(XPATH_EMPLOYEE_ID_KEY));
 				employee.setFullName(l.get(XPATH_EMPLOYEE_NAME_KEY));
@@ -61,9 +61,9 @@ public class EmployeeService extends PropertyConfigs {
 				employeesList.add(employee);
 				System.out.println(employee + "\n");
 			}
-		} catch (Exception ex) {
-			logger.error("parseXmlToDto : Exception {}", ex.getMessage());
-			throw ex;
+		} catch (Exception exception) {
+			logger.error("parseXmlToDto : Exception {}", exception.getMessage());
+			throw exception;
 		}
 	}
 
@@ -74,11 +74,11 @@ public class EmployeeService extends PropertyConfigs {
 			statement.executeUpdate(XMLInspectService.findElementById(QUERY_2));
 			statement.executeUpdate(XMLInspectService.findElementById(QUERY_1));
 
-		} catch (SQLException ex) {
-			logger.error("executeSqlQuery: SQLException {}", ex.getMessage());
+		} catch (SQLException sqlException) {
+			logger.error("executeSqlQuery: SQLException {}", sqlException.getMessage());
 			//throw ex;
-		} catch (Exception ex) {
-			logger.error("executeSqlQuery: SQLException {}", ex.getMessage());
+		} catch (Exception exception) {
+			logger.error("executeSqlQuery: SQLException {}", exception.getMessage());
 			//throw ex;
 		}
 	}
@@ -98,18 +98,18 @@ public class EmployeeService extends PropertyConfigs {
 			}
 			preparedStatement.executeBatch();
 			connection.commit();
-		} catch (Exception ex) {
-			logger.error("insertAllEmployees: SQLException {}", ex.getMessage());
+		} catch (Exception exception) {
+			logger.error("insertAllEmployees: SQLException {}", exception.getMessage());
 			//throw ex;
 		}
 	}
 
-	public void retrieveEmployeesById(String eid) throws Exception {
+	public void retrieveEmployeesById(String employeeId) throws Exception {
 
 		Employee employee = new Employee();
 		try {
 			preparedStatement = connection.prepareStatement(XMLInspectService.findElementById(QUERY_4));
-			preparedStatement.setString(1, eid);
+			preparedStatement.setString(1, employeeId);
 			ResultSet resultSet = preparedStatement.executeQuery();
 			while (resultSet.next()) {
 				setEmployee(employee, resultSet);
@@ -117,9 +117,9 @@ public class EmployeeService extends PropertyConfigs {
 			ArrayList<Employee> employeeList = new ArrayList<Employee>();
 			employeeList.add(employee);
 			displayEmployees(employeeList);
-		} catch (Exception ex) {
-			logger.error("retrieveEmployeesById: Exception {}", ex.getMessage());
-			throw ex;
+		} catch (Exception exception) {
+			logger.error("retrieveEmployeesById: Exception {}", exception.getMessage());
+			throw exception;
 		}
 	}
 
@@ -130,17 +130,17 @@ public class EmployeeService extends PropertyConfigs {
 		employee.setFacultyName(resultSet.getString(4));
 		employee.setDepartment(resultSet.getString(5));
 		employee.setDesignation(resultSet.getString(6));
-	}
+	}//exception not handled try catch block
 
-	public void deleteEmployeeById(String eid) {
+	public void deleteEmployeeById(String employeeId) {
 
 		try {
 			preparedStatement = connection.prepareStatement(XMLInspectService.findElementById(QUERY_6));
-			preparedStatement.setString(1, eid);
+			preparedStatement.setString(1, employeeId);
 			preparedStatement.executeUpdate();
-		} catch (Exception ex) {
-			logger.error("deleteEmployeeById: Exception {}", ex.getMessage());
-			ex.printStackTrace();
+		} catch (Exception exception) {
+			logger.error("deleteEmployeeById: Exception {}", exception.getMessage());
+			exception.printStackTrace();
 		}
 	}
 
@@ -149,15 +149,15 @@ public class EmployeeService extends PropertyConfigs {
 		try {
 			ArrayList<Employee> employeeList = new ArrayList<Employee>();
 			preparedStatement = connection.prepareStatement(XMLInspectService.findElementById(QUERY_5));
-			ResultSet r = preparedStatement.executeQuery();
-			while (r.next()) {
-				Employee e = new Employee();
-				setEmployee(e, r);
-				employeeList.add(e);
+			ResultSet resultSet = preparedStatement.executeQuery();
+			while (resultSet.next()) {
+				Employee employee = new Employee();
+				setEmployee(employee, resultSet);
+				employeeList.add(employee);
 			}
 			displayEmployees(employeeList);
-		} catch (Exception ex) {
-			logger.error("deleteEmployeeById: Exception {}", ex.getMessage());
+		} catch (Exception exception) {
+			logger.error("deleteEmployeeById: Exception {}", exception.getMessage());
 			//throw ex;
 		}
 
@@ -169,7 +169,6 @@ public class EmployeeService extends PropertyConfigs {
 				+ "Department" + "\t\t" + "Designation" + "\n");
 		System.out.println("================================================================================================================");
 		for(Employee employee : employeesList){
-//			Employee employee = employeesList.get(i);
 			System.out.println(employee.getEmployeeId() + "\t" + employee.getFullName() + "\t\t"
 					+ employee.getAddress() + "\t" + employee.getFacultyName() + "\t" + employee.getDepartment() + "\t"
 					+ employee.getDesignation() + "\n");

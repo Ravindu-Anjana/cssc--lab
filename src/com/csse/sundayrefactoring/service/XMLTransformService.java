@@ -36,33 +36,34 @@ public class XMLTransformService extends PropertyConfigs {
 
 	public static void transformXml() throws Exception {
 
-		Source x = new StreamSource(new File(REQUEST_FILE_PATH));
-		Source s = new StreamSource(new File(MODIFY_FILE_PATH));
-		Result o = new StreamResult(new File(RESPONSE_FILE_PATH));
-		TransformerFactory.newInstance().newTransformer(s).transform(x, o);
+		Source sourceRequest = new StreamSource(new File(REQUEST_FILE_PATH));
+		Source sourceModify = new StreamSource(new File(MODIFY_FILE_PATH));
+		Result sourceResponse = new StreamResult(new File(RESPONSE_FILE_PATH));
+		TransformerFactory.newInstance().newTransformer(sourceModify).transform(sourceRequest, sourceResponse);
 	}
+
 
 	public static ArrayList<Map<String, String>> getXmlXpath() throws Exception {
 
-		Document d = DocumentBuilderFactory.newInstance().newDocumentBuilder()
+		Document document = DocumentBuilderFactory.newInstance().newDocumentBuilder()
 				.parse(RESPONSE_FILE_PATH);
-		XPath x = XPathFactory.newInstance().newXPath();
-		int n = Integer.parseInt((String) x.compile("count(//Employees/Employee)").evaluate(d, XPathConstants.STRING));
+		XPath xPath = XPathFactory.newInstance().newXPath();
+		int n = Integer.parseInt((String) xPath.compile("count(//Employees/Employee)").evaluate(document, XPathConstants.STRING));//n variable suitable name
 		for (int i = 1; i <= n; i++) {
 			xpathMap = new HashMap<String, String>();
-			xpathMap.put(XPATH_EMPLOYEE_ID_KEY, (String) x.compile("//Employees/Employee[" + i + "]/EmployeeID/text()")
-					.evaluate(d, XPathConstants.STRING));
-			xpathMap.put(XPATH_EMPLOYEE_NAME_KEY, (String) x.compile("//Employees/Employee[" + i + "]/EmployeeFullName/text()")
-					.evaluate(d, XPathConstants.STRING));
+			xpathMap.put(XPATH_EMPLOYEE_ID_KEY, (String) xPath.compile("//Employees/Employee[" + i + "]/EmployeeID/text()")
+					.evaluate(document, XPathConstants.STRING));
+			xpathMap.put(XPATH_EMPLOYEE_NAME_KEY, (String) xPath.compile("//Employees/Employee[" + i + "]/EmployeeFullName/text()")
+					.evaluate(document, XPathConstants.STRING));
 			xpathMap.put(XPATH_EMPLOYEE_ADDRESS_KEY,
-					(String) x.compile("//Employees/Employee[" + i + "]/EmployeeFullAddress/text()").evaluate(d,
+					(String) xPath.compile("//Employees/Employee[" + i + "]/EmployeeFullAddress/text()").evaluate(document,
 							XPathConstants.STRING));
-			xpathMap.put(XPATH_FACULTY_NAME_KEY, (String) x.compile("//Employees/Employee[" + i + "]/FacultyName/text()")
-					.evaluate(d, XPathConstants.STRING));
-			xpathMap.put(XPATH_DEPARTMENT_KEY, (String) x.compile("//Employees/Employee[" + i + "]/Department/text()")
-					.evaluate(d, XPathConstants.STRING));
-			xpathMap.put(XPATH_DESIGNATION_KEY, (String) x.compile("//Employees/Employee[" + i + "]/Designation/text()")
-					.evaluate(d, XPathConstants.STRING));
+			xpathMap.put(XPATH_FACULTY_NAME_KEY, (String) xPath.compile("//Employees/Employee[" + i + "]/FacultyName/text()")
+					.evaluate(document, XPathConstants.STRING));
+			xpathMap.put(XPATH_DEPARTMENT_KEY, (String) xPath.compile("//Employees/Employee[" + i + "]/Department/text()")
+					.evaluate(document, XPathConstants.STRING));
+			xpathMap.put(XPATH_DESIGNATION_KEY, (String) xPath.compile("//Employees/Employee[" + i + "]/Designation/text()")
+					.evaluate(document, XPathConstants.STRING));
 			employeeList.add(xpathMap);
 		}
 		return employeeList;
