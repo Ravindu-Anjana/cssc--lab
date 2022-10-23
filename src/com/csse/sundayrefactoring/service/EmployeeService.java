@@ -94,12 +94,7 @@ public class EmployeeService extends PropertyConfigs {
 			preparedStatement.setString(1, eid);
 			ResultSet resultSet = preparedStatement.executeQuery();
 			while (resultSet.next()) {
-				employee.setEmployeeId(resultSet.getString(1));
-				employee.setFullName(resultSet.getString(2));
-				employee.setAddress(resultSet.getString(3));
-				employee.setFacultyName(resultSet.getString(4));
-				employee.setDepartment(resultSet.getString(5));
-				employee.setDesignation(resultSet.getString(6));
+				setEmployee(employee, resultSet);
 			}
 			ArrayList<Employee> employeeList = new ArrayList<Employee>();
 			employeeList.add(employee);
@@ -108,6 +103,15 @@ public class EmployeeService extends PropertyConfigs {
 			logger.error("retrieveEmployeesById: Exception {}", ex.getMessage());
 			throw ex;
 		}
+	}
+
+	private void setEmployee(Employee employee, ResultSet resultSet) throws SQLException {
+		employee.setEmployeeId(resultSet.getString(1));
+		employee.setFullName(resultSet.getString(2));
+		employee.setAddress(resultSet.getString(3));
+		employee.setFacultyName(resultSet.getString(4));
+		employee.setDepartment(resultSet.getString(5));
+		employee.setDesignation(resultSet.getString(6));
 	}
 
 	public void deleteEmployeeById(String eid) {
@@ -130,12 +134,7 @@ public class EmployeeService extends PropertyConfigs {
 			ResultSet r = preparedStatement.executeQuery();
 			while (r.next()) {
 				Employee e = new Employee();
-				e.setEmployeeId(r.getString(1));
-				e.setFullName(r.getString(2));
-				e.setAddress(r.getString(3));
-				e.setFacultyName(r.getString(4));
-				e.setDepartment(r.getString(5));
-				e.setDesignation(r.getString(6));
+				setEmployee(e, r);
 				employeeList.add(e);
 			}
 			displayEmployees(employeeList);

@@ -12,15 +12,15 @@ public class main {
 	 */
 	public static void main(String[] args) throws SQLException, ClassNotFoundException {
 
-		EmployeeService a1 = new EmployeeService();
+		EmployeeService employeeService = new EmployeeService();
 		try {
 			XMLTransformService.transformXml();
-			a1.parseXmlToDto();
-			a1.executeSqlQuery();
-			a1.insertAllEmployees();
+			employeeService.parseXmlToDto();
+			employeeService.executeSqlQuery();
+			employeeService.insertAllEmployees();
 //			employeeService.eMPLOYEEGETBYID("EMP10004");
 //			employeeService.EMPLOYEEDELETE("EMP10001");
-			a1.retrieveAllEmployees();
+			employeeService.retrieveAllEmployees();
 		} catch (Exception e) {
 		}
 
