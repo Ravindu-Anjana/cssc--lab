@@ -41,7 +41,7 @@ public class EmployeeService extends PropertyConfigs {
 				employee.setDepartment(l.get("XpathDepartmentKey"));
 				employee.setDesignation(l.get("XpathDesignationKey"));
 				employeesList.add(employee);
-				System.out.println(employee.toString() + "\n");
+				System.out.println(employee + "\n");
 			}
 		} catch (Exception ex) {
 			logger.error("parseXmlToDto : Exception {}", ex.getMessage());

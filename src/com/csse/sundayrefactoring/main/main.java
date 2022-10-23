@@ -18,8 +18,10 @@ public class main {
 			employeeService.parseXmlToDto();
 			employeeService.executeSqlQuery();
 			employeeService.insertAllEmployees();
-//			employeeService.eMPLOYEEGETBYID("EMP10004");
-//			employeeService.EMPLOYEEDELETE("EMP10001");
+/*
+			employeeService.retrieveEmployeesById("EMP10004");
+			employeeService.deleteEmployeeById("EMP10001");
+*/
 			employeeService.retrieveAllEmployees();
 		} catch (Exception e) {
 		}
