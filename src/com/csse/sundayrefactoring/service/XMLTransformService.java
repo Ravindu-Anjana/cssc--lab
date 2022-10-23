@@ -10,6 +10,8 @@ import javax.xml.transform.Result;
 import javax.xml.transform.Source;
 
 import com.csse.sundayrefactoring.config.PropertyConfigs;
+import com.sun.org.slf4j.internal.Logger;
+import com.sun.org.slf4j.internal.LoggerFactory;
 import org.w3c.dom.Document;
 
 import javax.xml.transform.stream.StreamResult;
@@ -19,6 +21,8 @@ import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 
 public class XMLTransformService extends PropertyConfigs {
+
+	private static final Logger logger = LoggerFactory.getLogger(XMLTransformService.class);
 
 	private static final ArrayList<Map<String, String>> employeeList = new ArrayList<Map<String, String>>();
 
