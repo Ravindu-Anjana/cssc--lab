@@ -61,7 +61,6 @@ public class Employee {
 
 	@Override
 	public String toString() {
-		
 		return "Employee ID = " + employeeId + "\n" + "FullName = " + fullName + "\n" + "Address = " + address + "\n"
 				+ "Faculty Name = " + facultyName + "\n" + "Department = " + department + "\n" + "Designation = "
 				+ designation;
