@@ -48,8 +48,8 @@ public class XMLTransformService extends PropertyConfigs {
 		Document document = DocumentBuilderFactory.newInstance().newDocumentBuilder()
 				.parse(RESPONSE_FILE_PATH);
 		XPath xPath = XPathFactory.newInstance().newXPath();
-		int n = Integer.parseInt((String) xPath.compile("count(//Employees/Employee)").evaluate(document, XPathConstants.STRING));//n variable suitable name
-		for (int i = 1; i <= n; i++) {
+		int employeeCount = Integer.parseInt((String) xPath.compile("count(//Employees/Employee)").evaluate(document, XPathConstants.STRING));
+		for (int i = 1; i <= employeeCount; i++) {
 			xpathMap = new HashMap<String, String>();
 			xpathMap.put(XPATH_EMPLOYEE_ID_KEY, (String) xPath.compile("//Employees/Employee[" + i + "]/EmployeeID/text()")
 					.evaluate(document, XPathConstants.STRING));

@@ -130,7 +130,7 @@ public class EmployeeService extends PropertyConfigs {
 		employee.setFacultyName(resultSet.getString(4));
 		employee.setDepartment(resultSet.getString(5));
 		employee.setDesignation(resultSet.getString(6));
-	}//exception not handled try catch block
+	}
 
 	public void deleteEmployeeById(String employeeId) {
 
