@@ -68,14 +68,13 @@ public class EmployeeService extends PropertyConfigs {
 		try {
 			preparedStatement = connection.prepareStatement(XMLInspectService.findElementById("q3"));
 			connection.setAutoCommit(false);
-			for(int i = 0; i < employeesList.size(); i++){
-				Employee e = employeesList.get(i);
-				preparedStatement.setString(1, e.getEmployeeId());
-				preparedStatement.setString(2, e.getFullName());
-				preparedStatement.setString(3, e.getAddress());
-				preparedStatement.setString(4, e.getFacultyName());
-				preparedStatement.setString(5, e.getDepartment());
-				preparedStatement.setString(6, e.getDesignation());
+			for(Employee employee : employeesList){
+				preparedStatement.setString(1, employee.getEmployeeId());
+				preparedStatement.setString(2, employee.getFullName());
+				preparedStatement.setString(3, employee.getAddress());
+				preparedStatement.setString(4, employee.getFacultyName());
+				preparedStatement.setString(5, employee.getDepartment());
+				preparedStatement.setString(6, employee.getDesignation());
 				preparedStatement.addBatch();
 			}
 			preparedStatement.executeBatch();
@@ -150,11 +149,11 @@ public class EmployeeService extends PropertyConfigs {
 		System.out.println("Employee ID" + "\t\t" + "Full Name" + "\t\t" + "Address" + "\t\t" + "Faculty Name" + "\t\t"
 				+ "Department" + "\t\t" + "Designation" + "\n");
 		System.out.println("================================================================================================================");
-		for(int i = 0; i < employeesList.size(); i++){
-			Employee e = employeesList.get(i);
-			System.out.println(e.getEmployeeId() + "\t" + e.getFullName() + "\t\t"
-					+ e.getAddress() + "\t" + e.getFacultyName() + "\t" + e.getDepartment() + "\t"
-					+ e.getDesignation() + "\n");
+		for(Employee employee : employeesList){
+//			Employee employee = employeesList.get(i);
+			System.out.println(employee.getEmployeeId() + "\t" + employee.getFullName() + "\t\t"
+					+ employee.getAddress() + "\t" + employee.getFacultyName() + "\t" + employee.getDepartment() + "\t"
+					+ employee.getDesignation() + "\n");
 			System.out.println("----------------------------------------------------------------------------------------------------------------");
 		}
 		
