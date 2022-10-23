@@ -54,6 +54,7 @@ public class EmployeeService extends PropertyConfigs {
 			statement = connection.createStatement();
 			statement.executeUpdate(XMLInspectService.findElementById("q2"));
 			statement.executeUpdate(XMLInspectService.findElementById("q1"));
+
 		} catch (SQLException ex) {
 			logger.error("executeSqlQuery: SQLException {}", ex.getMessage());
 			//throw ex;
