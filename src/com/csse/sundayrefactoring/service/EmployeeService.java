@@ -4,7 +4,6 @@ import com.csse.sundayrefactoring.config.PropertyConfigs;
 import com.csse.sundayrefactoring.model.Employee;
 import com.sun.org.slf4j.internal.Logger;
 import com.sun.org.slf4j.internal.LoggerFactory;
-
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Map;
@@ -16,11 +15,30 @@ public class EmployeeService extends PropertyConfigs {
 	private static Connection connection;
 	private static Statement statement;
 	private PreparedStatement preparedStatement;
+
+	public static final String QUERY_1 = "q1";
+	public static final String QUERY_2 = "q2";
+	public static final String QUERY_3 = "q3";
+	public static final String QUERY_4 = "q4";
+	public static final String QUERY_5 = "q5";
+	public static final String QUERY_6 = "q6";
+	public static final String JDBC_NAME ="com.mysql.jdbc.Driver" ;
+	public static final String URL = "url";
+	public static final String USERNAME = "username";
+	public static final String PASSWORD= "password";
+	private static final String XPATH_EMPLOYEE_ID_KEY="XpathEmployeeIDKey";
+	private static final String XPATH_EMPLOYEE_NAME_KEY="XpathEmployeeNameKey";
+	private static final String XPATH_EMPLOYEE_ADDRESS_KEY="XpathEmployeeAddressKey";
+	private static final String XPATH_FACULTY_NAME_KEY="XpathFacultyNameKey";
+	private static final String XPATH_DEPARTMENT_KEY="XpathDepartmentKey";
+	private static final String XPATH_DESIGNATION_KEY="XpathDesignationKey";
+
+
 	public EmployeeService() throws SQLException, ClassNotFoundException {
 		try {
-			Class.forName("com.mysql.jdbc.Driver");
-			connection = DriverManager.getConnection(properties.getProperty("url"), properties.getProperty("username"),
-					properties.getProperty("password"));
+			Class.forName(JDBC_NAME);
+			connection = DriverManager.getConnection(properties.getProperty(URL), properties.getProperty(USERNAME),
+					properties.getProperty(PASSWORD));
 		} catch (SQLException | ClassNotFoundException ex) {
 			logger.error("EmployeeService: Exception {}", ex);
 //			throw ex;
@@ -34,12 +52,12 @@ public class EmployeeService extends PropertyConfigs {
 			for (int i = 0; i < size; i++) {
 				Map<String, String> l = XMLTransformService.getXmlXpath().get(i);
 				Employee employee = new Employee();
-				employee.setEmployeeId(l.get("XpathEmployeeIDKey"));
-				employee.setFullName(l.get("XpathEmployeeNameKey"));
-				employee.setAddress(l.get("XpathEmployeeAddressKey"));
-				employee.setFacultyName(l.get("XpathFacultyNameKey"));
-				employee.setDepartment(l.get("XpathDepartmentKey"));
-				employee.setDesignation(l.get("XpathDesignationKey"));
+				employee.setEmployeeId(l.get(XPATH_EMPLOYEE_ID_KEY));
+				employee.setFullName(l.get(XPATH_EMPLOYEE_NAME_KEY));
+				employee.setAddress(l.get(XPATH_EMPLOYEE_ADDRESS_KEY));
+				employee.setFacultyName(l.get(XPATH_FACULTY_NAME_KEY));
+				employee.setDepartment(l.get(XPATH_DEPARTMENT_KEY));
+				employee.setDesignation(l.get(XPATH_DESIGNATION_KEY));
 				employeesList.add(employee);
 				System.out.println(employee + "\n");
 			}
@@ -50,10 +68,11 @@ public class EmployeeService extends PropertyConfigs {
 	}
 
 	public void executeSqlQuery() throws Exception {
+
 		try {
 			statement = connection.createStatement();
-			statement.executeUpdate(XMLInspectService.findElementById("q2"));
-			statement.executeUpdate(XMLInspectService.findElementById("q1"));
+			statement.executeUpdate(XMLInspectService.findElementById(QUERY_2));
+			statement.executeUpdate(XMLInspectService.findElementById(QUERY_1));
 
 		} catch (SQLException ex) {
 			logger.error("executeSqlQuery: SQLException {}", ex.getMessage());
@@ -66,7 +85,7 @@ public class EmployeeService extends PropertyConfigs {
 
 	public void insertAllEmployees() throws Exception {
 		try {
-			preparedStatement = connection.prepareStatement(XMLInspectService.findElementById("q3"));
+			preparedStatement = connection.prepareStatement(XMLInspectService.findElementById(QUERY_3));
 			connection.setAutoCommit(false);
 			for(Employee employee : employeesList){
 				preparedStatement.setString(1, employee.getEmployeeId());
@@ -89,7 +108,7 @@ public class EmployeeService extends PropertyConfigs {
 
 		Employee employee = new Employee();
 		try {
-			preparedStatement = connection.prepareStatement(XMLInspectService.findElementById("q4"));
+			preparedStatement = connection.prepareStatement(XMLInspectService.findElementById(QUERY_4));
 			preparedStatement.setString(1, eid);
 			ResultSet resultSet = preparedStatement.executeQuery();
 			while (resultSet.next()) {
@@ -116,7 +135,7 @@ public class EmployeeService extends PropertyConfigs {
 	public void deleteEmployeeById(String eid) {
 
 		try {
-			preparedStatement = connection.prepareStatement(XMLInspectService.findElementById("q6"));
+			preparedStatement = connection.prepareStatement(XMLInspectService.findElementById(QUERY_6));
 			preparedStatement.setString(1, eid);
 			preparedStatement.executeUpdate();
 		} catch (Exception ex) {
@@ -129,7 +148,7 @@ public class EmployeeService extends PropertyConfigs {
 
 		try {
 			ArrayList<Employee> employeeList = new ArrayList<Employee>();
-			preparedStatement = connection.prepareStatement(XMLInspectService.findElementById("q5"));
+			preparedStatement = connection.prepareStatement(XMLInspectService.findElementById(QUERY_5));
 			ResultSet r = preparedStatement.executeQuery();
 			while (r.next()) {
 				Employee e = new Employee();
